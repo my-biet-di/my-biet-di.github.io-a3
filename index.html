@@ -10,8 +10,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Chelsea+Market&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Chelsea+Market&display=swap" rel="stylesheet">
+    <!--I want to use fonts from Google to better suit my title.-->
 
 </head>
 <body>
@@ -36,6 +37,7 @@
         </div>
     </section>
 
+<!--I divided it into several sections to create the effect that you have to scroll through the previous section before you can view the next one.-->
     <section class="content" id="content">
         <div class="info">
             <h1 class="info-text active"> Born to create, <br> Raised by deadlines</h1>
@@ -166,6 +168,7 @@
     </footer>
 
     <script>
+        //When first accessing the site, I placed a large oval in the center of the screen along with text to remind viewers that scrolling is the primary action on this website.
         gsap.registerPlugin(ScrollTrigger);
 
         const oval = document.getElementById('oval');
@@ -193,6 +196,7 @@
             }
         });
 
+        //The original text disappears and the artist's name along with the graphics appears.
         introTimeline
             .to(scrollText, { opacity: 0, scale: 0.8, duration: 0.3 })
             .to(oval, { scale: 0.5, duration: 0.5 }, "-=0.2") 
@@ -204,6 +208,7 @@
                 stagger: 0.1,
             })
 
+        //Here I want to include some short text about myself and a few images of my previous products. I've designed it so that when you scroll down, different information and images will appear.
         const allTexts = gsap.utils.toArray(".info-text");
         const contentTimeline = gsap.timeline({
             scrollTrigger: {
@@ -219,27 +224,26 @@
         contentTimeline
             .to(".img1", { opacity: 1, y: 0, duration: 1 })
             .fromTo(allTexts[0], 
-                { opacity: 0, y: -150 }, // Xuất phát từ trên cao (-150px)
-                { opacity: 1, y: 0, duration: 0.2, ease: "power1.out" }, "-=1" // Chạy gần như song song với hình 1
+                { opacity: 0, y: -150 }, 
+                { opacity: 1, y: 0, duration: 0.2, ease: "power1.out" }, "-=1" 
             )
             
-            // --- BƯỚC 2: Giữ nguyên giao diện ở giữa màn hình một lúc để người dùng kịp đọc ---
             .to({}, { duration: 1.5 }) 
 
-            // --- BƯỚC 3: CHỮ 1 biến mất (mờ dần và rơi nhẹ xuống dưới) ---
+            //The first text disappears, the second text appears from the bottom.
             .to(allTexts[0], { opacity: 0, y: 50, duration: 0.8 })
 
-            // --- BƯỚC 4: CHỮ 2 xuất hiện tại tâm màn hình và HÌNH 2 hiện lên tiếp nối ---
             .fromTo(allTexts[1],
-                { opacity: 0, y: 50 }, // Chữ 2 bay từ dưới lên giữa
+                { opacity: 0, y: 50 }, 
                 { opacity: 1, y: 0, duration: 1 }, "-=0.4"
             )
 
             .to(".img2", { opacity: 1, y: 0, duration: 1 }, "-=0.5")
 
-            // Giữ một khoảng lặng ở cuối trang trước khi nhả phanh ghim cuộn xuống tiếp
             .to({}, { duration: 1.5 });
 
+
+        //I want to create an effect where, when scrolling, arms appear from the outside, sticking their eyes onto my profile picture, and then popping back out to add interest and fun to this portfolio.
         const aboutTimeline = gsap.timeline({
             scrollTrigger: {
             trigger: ".about",
@@ -251,8 +255,7 @@
         }
         });
 
-        aboutTimeline
-    // 
+        aboutTimeline 
         .to(".about-title", { 
             fontSize: "4.5vw", /* scale down the size of the title and put it on the top of the section */
             top: "5%",
@@ -261,17 +264,16 @@
             ease: "power2.inOut" 
     })
     
-    // 2. Hiện khung Card chân dung lên đồng thời
+    // The picture will appear after the title is scaled down.
         .to(".about-card", { opacity: 1, scale: 1, duration: 1 }, "-=1")
 
     // I want to create an animation where an arm holds stickers (eyes, stars) and sticks them onto the profile picture to make it more interesting.
         .to(".hleft", { left: "-250px", duration: 1.2, ease: "power2.out" }, "+=0.2")
-        .to(".e-left", { left: "140px", duration: 1.3, ease: "power2.out" }, "-=1.2") // Căn tọa độ mắt dừng trên ảnh
+        .to(".e-left", { left: "140px", duration: 1.3, ease: "power2.out" }, "-=1.2")
 
         .to(".hright", { right: "-270px", duration: 1.2, ease: "power2.out" }, "-=1.2")
         .to(".e-right", { right: "120px", duration: 1.3, ease: "power2.out" }, "-=1.2")
 
-    // Giữ một nhịp ngắn diễn tả hành động dán mắt vào ảnh
         .to({}, { duration: 0.5 })
 
     // Leave the sticker on and pull your hand away.
@@ -281,9 +283,10 @@
     // I wanted each action to appear separately, not all at once, so I had the bubble appear after the sticker application action.
         .to([".bubble", ".bubble2", ".agraphic"], { opacity: 1, scale: 1, duration: 0.8, stagger: 0.2, ease: "back.out(1.5)" })
 
-    // Nhịp dừng cuối cùng để người xem đọc thông tin giới thiệu của bạn
+    // This allows viewers time to read the information and prevents them from scrolling too quickly.
         .to({}, { duration: 3 })
 
+    // Initially, I planned to put the "my skill" section as a separate section, but then I reconsidered and combined it with the previous "about me" section. I added bubbles to place information inside, making it look like I was actually sharing that information, rather than just what's displayed on the website.
         .to([".bubble", ".bubble2"], { 
                 opacity: 0, 
                 scale: 0.7, 
@@ -291,15 +294,18 @@
                 ease: "power2.in" 
             })
 
-            // 2. Chữ Tiêu đề "ABOUT ME" tự động đổi nội dung thành "MY SKILLS"
-            // Đồng thời đổi màu sắc nhẹ để tạo cảm giác đổi chương mới
+        // Change the phrase "about me" to "my skills".
             .to(".about-title", {
                 opacity: 0,
                 y: -20,
                 duration: 0.4,
                 onComplete: () => {
                     document.querySelector(".about-title").innerText = "MY SKILLS";
-                }
+                },
+                //To make sure that when you scroll back up, the words "my skill" change to "about me"
+                onReverseComplete: () => {
+                document.querySelector(".about-title").innerText = "ABOUT ME";
+            }
             })
             .to(".about-title", { 
                 opacity: 1, 
@@ -308,71 +314,61 @@
                 duration: 0.5 
             })
 
-            // 3. Cho 2 Khối Bong bóng thoại Skill mới nở bùng ra từ hai phía lề biên
+            // I previously made the two previous bubble texts disappear and caused two new bubble texts to appear.
             .to([".hardskill-bubble", ".soft-bubble"], {
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "back.out(1.2)"
+                opacity: 1, scale: 1, duration: 0.8, stagger: 0.2, ease: "back.out(1.2)"
             }, "-=0.2")
 
-            // 4. HIỆU ỨNG ICON BẮN TỪNG CÁI MỘT: Kích hoạt các icon app nẩy lên bên trong lòng Oval trái
             .fromTo(".skill", 
                 { opacity: 0, scale: 0 }, 
-                { 
-                    opacity: 1, 
-                    scale: 1, 
-                    duration: 0.7, 
-                    stagger: {
-                        each: 0.2,       // Tốc độ bắn nối đuôi nhau cách mỗi 0.2 giây
-                        from: "random"   // Hiện ngẫu nhiên từng cái một nghệ thuật giống hệt như ảnh vẽ mẫu
+                { opacity: 1, scale: 1, duration: 0.7, stagger: {
+                        each: 0.2,      
+                        from: "random"   
                     },
                     ease: "back.out(1.8)"
-                }, "-=0.3" // Chạy gối đầu ngay khi khối Oval vừa xuất hiện xong
+                }, "-=0.3" 
             )
 
-            // Nhịp dừng cuối cùng cực kỳ quan trọng để người xem ngắm nhìn trọn vẹn chương Skill trước khi nhả trang cuộn xuống footer
             .to({}, { duration: 3.5 });
 
-            const workWrapper = document.querySelector('.work-wrapper');
-const workItems = gsap.utils.toArray('.work-item');
+        //I want this section to have a horizontal scrolling effect in the "my work" section to add more interest and explore the possibilities of scrolling actions.
+        const workWrapper = document.querySelector('.work-wrapper');
+        const workItems = gsap.utils.toArray('.work-item');
 
-// Tính toán tổng quãng đường dịch chuyển ngang bằng chiều rộng của toàn bộ dải wrapper trừ đi chiều rộng màn hình hiển thị
-let scrollTween = gsap.to(workWrapper, {
-    x: () => -(workWrapper.scrollWidth - window.innerWidth),
-    ease: "none", // Đi đều không giật cục để khớp mượt với scrub cuộn chuột
-    scrollTrigger: {
-        trigger: ".work-section",
-        pin: true,        // Ghim trang cố định cố định tại chỗ để thực hiện chuyển động ngang
-        scrub: 1,         // Thời gian trễ bám mượt theo quán tính chuột
-        start: "top top",
-        end: () => "+=" + workWrapper.scrollWidth, // Chiều dài cuộn dọc tương ứng với độ dài dải ngang
-        invalidateOnRefresh: true
-    }
-});
+        //
+        let scrollTween = gsap.to(workWrapper, {
+            x: () => -(workWrapper.scrollWidth - window.innerWidth),
+            ease: "none", 
+            scrollTrigger:{
+            trigger: ".work-section",
+            pin: true,        //To make sure the page is pinned to the correct section before scrolling all the way down.
+            scrub: 1,
+            start: "top top",
+            end: () => "+=" + workWrapper.scrollWidth,
+            invalidateOnRefresh: true
+            }
+        });
 
-// Tạo hiệu ứng thu phóng (Scale) dành riêng cho phần tử lọt vào giữa tâm màn hình (Center)
-workItems.forEach((item) => {
-    gsap.to(item.querySelector('.work-card-inner'), {
-        scale: 1, // Phóng to đạt kích cỡ chuẩn 100% khi nằm ở giữa
-        scrollTrigger: {
-            trigger: item,
-            containerAnimation: scrollTween, // Biên dịch hệ tọa độ theo trục cuộn ngang của chuỗi Tween trên thay vì trục dọc mặc định
-            start: "left 65%",   // Bắt đầu phóng to khi rìa trái thẻ chạm mốc 65% màn hình từ phải qua
-            end: "right 35%",    // Thu nhỏ lại khi rìa phải thẻ vượt quá mốc 35% màn hình về bên trái
-            scrub: true,         // Vuốt mượt tỉ lệ co giãn theo hành trình dịch chuyển vị trí
-            onToggle: self => {
-                // Thêm/Xóa class trạng thái kích hoạt làm sáng rõ thẻ khi ở vị trí tâm điểm đọc của mắt
-                if(self.isActive) {
-                    item.classList.add('is-center');
-                } else {
-                    item.classList.remove('is-center');
+        //Scale up the box when it in the center.
+        workItems.forEach((item) => {
+        gsap.to(item.querySelector('.work-card-inner'), {
+            scale: 1, 
+            scrollTrigger: {
+                trigger: item,
+                containerAnimation: scrollTween,
+                start: "left 65%",
+                end: "right 35%",
+                scrub: true,
+                onToggle: self => {
+                    if(self.isActive) {
+                        item.classList.add('is-center');
+                    } else {
+                        item.classList.remove('is-center');
+                    }
                 }
             }
-        }
+        });
     });
-});
     </script>
 </body>
 </html>
